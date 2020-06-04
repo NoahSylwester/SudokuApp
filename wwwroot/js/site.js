@@ -10,6 +10,8 @@ $("#solutionChecker").on("click", function() {
     $(".puzzleCell").each(function(index){
         solutionString += $(this).attr('key');
     })
+    console.log($("#solutionChecker").attr("solution"))
+    console.log(solutionString)
     if ($("#solutionChecker").attr("solution") === solutionString) {
         alert("Correct!");
     }

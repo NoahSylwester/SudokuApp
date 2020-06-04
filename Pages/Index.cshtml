@@ -28,7 +28,7 @@
         puzzleMatrix[x,y] = puzzleString[i];
         solutionMatrix[x,y] = puzzleString[i];
     }
-    int numToHide = 50;
+    int numToHide = 1;
     for (int i = 0; i < numToHide; i++ )
     {
         Random random = new Random();
@@ -51,7 +51,7 @@
         }
         else
         {
-            <div solution="@key" class="puzzleCell">@numChar</div>;
+            <div key="@key" solution="@key" class="puzzleCell">@numChar</div>;
         }
     }
 </div>
