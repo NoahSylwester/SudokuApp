@@ -1,0 +1,61 @@
+﻿@page
+@using Puzzle.Pages
+@using RestSharp
+@using RestSharp.Authenticators
+@using Newtonsoft.Json;
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+<h1>Solve this puzzle!</h1>
+@{
+    var client = new RestClient("https://online-sudoku.p.rapidapi.com/random");
+    var request = new RestRequest(Method.GET);
+    request.AddHeader("x-rapidapi-host", "online-sudoku.p.rapidapi.com");
+    request.AddHeader("x-rapidapi-key", "b7ece58cddmsh492adbb2d0e2f6fp19717djsnc1c02a305ff9");
+    IRestResponse response = client.Execute(request);
+
+    var responseJson = JsonConvert.DeserializeObject<Dictionary<string, string>>(response.Content);
+    string puzzleString = responseJson["item"];
+    
+    char[,] puzzleMatrix = new char[9,9];
+    char[,] solutionMatrix = new char[9,9];
+    System.Console.WriteLine(puzzleString);
+    for (int i = 0; i < puzzleString.Length; i++ )
+    {
+        int y = i % 9;
+        int x = i / 9;
+        puzzleMatrix[x,y] = puzzleString[i];
+        solutionMatrix[x,y] = puzzleString[i];
+    }
+    int numToHide = 50;
+    for (int i = 0; i < numToHide; i++ )
+    {
+        Random random = new Random();
+        int x = random.Next(0, 9);
+        int y = random.Next(0, 9);
+
+        puzzleMatrix[x,y] = '?';
+    }
+}
+<div id="puzzle">
+    @for (int i = 0; i < 81; i++)
+    {
+        int y = i % 9;
+        int x = i / 9;
+        char numChar = puzzleMatrix[x,y];
+        var key = solutionMatrix[x,y];
+        @if (numChar == '?')
+        {
+            <input key="" solution="@key" type="text" class="puzzleCell" />;
+        }
+        else
+        {
+            <div solution="@key" class="puzzleCell">@numChar</div>;
+        }
+    }
+</div>
+@{
+
+}
+<button id="solutionChecker" solution="@puzzleString">Check solution</button>
