@@ -3,21 +3,39 @@
 
 // Write your Javascript code.
 $(".puzzleCell").on("change", function(event) {
-    $(this).attr('key', event.target.value);
+    if (['1','2','3','4','5','6','7','8','9'].includes($(this).val()) && $(this).val().length === 1 ) {
+        $(this).attr('key', event.target.value);
+    }
+    else {
+        $(this).val('');
+    }
 })
 $("#solutionChecker").on("click", function() {
     solutionString = '';
     $(".puzzleCell").each(function(index){
         solutionString += $(this).attr('key');
     })
-    console.log($("#solutionChecker").attr("solution"))
-    console.log(solutionString)
     if ($("#solutionChecker").attr("solution") === solutionString) {
         alert("Correct!");
     }
     else {
         alert("Incorrect.")
     }
-    // console.log('built',solutionString);
-    // console.log('stolen',$("#solutionChecker").attr("solution"));
+    // $.ajax(  
+    //     {  
+    //         type: 'POST',  
+    //         dataType: 'JSON',  
+    //         url: '/',  
+    //         data: { solutionString },  
+    //         success:  
+    //             function (response)  
+    //             {  
+    //                 console.log(response);
+    //             },  
+    //         error:  
+    //             function (response)  
+    //             {  
+    //                 alert("Error: " + response);  
+    //             }  
+    //     });
 })
